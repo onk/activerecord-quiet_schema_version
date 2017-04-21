@@ -1,5 +1,8 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.5.0
+  - 2.4
+  - ruby-head
 before_install: gem install bundler -v 1.14.6
+script:
+- bundle exec rspec
