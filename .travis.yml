@@ -1,8 +1,13 @@
 sudo: false
 language: ruby
 rvm:
-  - 2.4
+  - 2.4.1
   - ruby-head
+gemfile:
+  - gemfiles/activerecord_4_2.gemfile
+  - gemfiles/activerecord_5_0.gemfile
+  - gemfiles/activerecord_5_1.gemfile
+  - gemfiles/activerecord_master.gemfile
 before_install: gem install bundler -v 1.14.6
 script:
 - bundle exec rspec

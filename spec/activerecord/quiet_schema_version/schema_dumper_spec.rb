@@ -2,7 +2,7 @@ RSpec.describe Activerecord::QuietSchemaVersion::SchemaDumper do
   it "remove ActiveRecord::Schema.define arguments" do
     stream = StringIO.new
     ActiveRecord::SchemaDumper.dump(ActiveRecord::Base.connection, stream)
-    expect(stream.string).to eq <<~SCHEMA
+    expected = <<~SCHEMA
       # This file is auto-generated from the current state of the database. Instead
       # of editing this file, please use the migrations feature of Active Record to
       # incrementally modify your database, and then regenerate this schema definition.
@@ -19,5 +19,10 @@ RSpec.describe Activerecord::QuietSchemaVersion::SchemaDumper do
 
       end
     SCHEMA
+    # rails4 has magic comment
+    if ActiveRecord.version < Gem::Version.new("5.0.0")
+      expected = "# encoding: UTF-8\n" + expected
+    end
+    expect(stream.string).to eq expected
   end
 end
