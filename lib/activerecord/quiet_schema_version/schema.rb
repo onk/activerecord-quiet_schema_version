@@ -17,7 +17,8 @@ module Activerecord
           migrations_paths = ActiveRecord::Migrator.migrations_paths
           paths = migrations_paths.map { |p| "#{p}/**/[0-9]*_*.rb" }
           versions = Dir[*paths].map do |filename|
-            filename.split("/").last.split("_").first.to_i
+            version, _, _ = ActiveRecord::Migrator.parse_migration_filename(filename)
+            version.to_i
           end
           versions.max
         end
